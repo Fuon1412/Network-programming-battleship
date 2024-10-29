@@ -1,0 +1,7 @@
+src\server\models\Player.class
+src\client\PrimaryController.class
+module-info.class
+src\client\SecondaryController.class
+src\server\GameServer.class
+src\client\App.class
+src\server\methods\playermethods\PlayerService.class
