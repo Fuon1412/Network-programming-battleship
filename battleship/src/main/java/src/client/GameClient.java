@@ -1,10 +1,5 @@
 package src.client;
 
-/*
- * Lớp client giúp các controller truyền dữ liệu nhận được từ view lên server
- * cũng như phản hồi từ server về để controller truyền lên view
- */
-
 import java.io.*;
 import java.net.Socket;
 
@@ -12,53 +7,81 @@ public class GameClient {
     private static final String SERVER_ADDRESS = "localhost";
     private static final int SERVER_PORT = 8080;
 
-    //Cần khởi chạy main ở đây nữa để thực hiện việc kết nối đến server bằng giao thức TCP/IP
-    public static void main(String[] args) {
-        try (Socket socket = new Socket(SERVER_ADDRESS, SERVER_PORT);
-                BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
-                BufferedReader consoleInput = new BufferedReader(new InputStreamReader(System.in))) {
+    private Socket socket;
+    private BufferedReader input;
+    private PrintWriter output;
 
-            String request = consoleInput.readLine();
-            output.println(request);
+    //Khởi tạo một instance của GameClient theo pattern Singleton
+    private static GameClient instance;
 
-            String response = input.readLine();
-            System.out.println("Server response: " + response);
+    private GameClient() {}
+
+    public static GameClient getInstance() {
+        if (instance == null) {
+            instance = new GameClient();
+        }
+        return instance;
+    }
+
+    // Phương thức khởi tạo kết nối tới server
+    public void start() throws IOException {
+        if (socket == null || socket.isClosed()) {
+            socket = new Socket(SERVER_ADDRESS, SERVER_PORT);
+            input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            output = new PrintWriter(socket.getOutputStream(), true);
+            System.out.println("Connected to server on port " + SERVER_PORT);
+            listenForServerResponses();
+        }
+    }
+
+    private void listenForServerResponses() {
+        new Thread(() -> {
+            try {
+                String response;
+                while ((response = input.readLine()) != null) {
+                    System.out.println("Server response: " + response);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                cleanup();
+            }
+        }).start();
+    }
+
+    private void cleanup() {
+        try {
+            if (output != null) output.close();
+            if (input != null) input.close();
+            if (socket != null) socket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
     /*
-     * Dưới đây là các phương thức để client tương tác với server
-     * sendLogin: gửi thông tin đăng nhập lên server
-     * sendRegister: gửi thông tin đăng ký lên server
+     * 2 cái phương thức dưới này qua code sai logic, đáng lẽ chỉ cần 1 socket duy nhất để gửi request và nhận response
+     * thì t làm thành mỗi khi chạy 1 cái sẽ tạo ra 1 socket, nghe ngu vcl =))
      */
-    public static void sendLogin(String username, String password) {
-        try (Socket socket = new Socket(SERVER_ADDRESS, SERVER_PORT);
-                PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
-                BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
-
-            String request = "LOGIN;" + username + ";" + password;
-            output.println(request);
-
-            String response = input.readLine();
-            System.out.println("Server response: " + response);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    // Phương thức gửi request đăng nhập
+    public void sendLogin(String username, String password) {
+        String request = "LOGIN;" + username + ";" + password;
+        output.println(request);
     }
 
-    public static void sendRegister(String name, String username, String password) {
-        try (Socket socket = new Socket(SERVER_ADDRESS, SERVER_PORT);
-                PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
-                BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+    // Phương thức gửi request đăng ký
+    public void sendRegister(String name, String username, String password) {
+        String request = "REGISTER;" + name + ";" + username + ";" + password;
+        output.println(request);
+    }
 
-            String request = "REGISTER;" + name + ";" + username + ";" + password;
-            output.println(request);
-
-            String response = input.readLine();
-            System.out.println("Server response: " + response);
-        } catch (IOException e) {
+    // Phương thức gửi request thoát game, khi này sẽ đóng socket từ client và kết thúc chương trình
+    public void sendExit() {
+        try {
+            if (output != null) {
+                output.println("EXIT");  
+            }
+            cleanup(); 
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

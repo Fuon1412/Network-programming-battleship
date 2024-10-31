@@ -5,7 +5,14 @@ module com.example {
     requires lombok;
     requires transitive javafx.graphics;
     requires com.google.gson;
-    
-    opens src.client.controller to javafx.fxml;
+    requires javafx.base;
+
+    // Export packages to make them accessible
+    exports src.server;
     exports src.client;
+    exports src.client.controller;
+    exports src.server.models;
+    // Open packages for reflection (e.g., for FXML loading)
+    opens src.client.controller to javafx.fxml;
+    opens src.server.models to com.google.gson;
 }

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+   prefHeight="686.0" prefWidth="1078.0" xmlns="http://javafx.com/javafx/23.0.1"
+   xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.client.controller.StartController">
+   <children>
+      <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="600.0" prefWidth="957.0"
+         VBox.vgrow="ALWAYS">
+         <children>
+            <Label layoutX="360.0" layoutY="259.0" text="Battleship v1.0">
+               <font>
+                  <Font size="56.0" />
+               </font>
+            </Label>
+            <Button fx:id="exitGame" layoutX="948.0" layoutY="625.0" mnemonicParsing="false"
+               prefHeight="31.0" prefWidth="115.0" text="Exit">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Button>
+            <Button fx:id="startGame" layoutX="433.0" layoutY="356.0" mnemonicParsing="false"
+               prefHeight="46.0" prefWidth="211.0" text="Start">
+               <font>
+                  <Font size="23.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>

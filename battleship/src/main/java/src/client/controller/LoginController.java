@@ -1,10 +1,13 @@
 package src.client.controller;
 
+import java.io.IOException;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextField;
 import src.client.GameClient;
+import src.client.Main;
 
 public class LoginController {
 
@@ -21,20 +24,39 @@ public class LoginController {
     private Button loginSubmit;
 
     @FXML
+    private Button returnStartScene;
+
+    @FXML
     private void initialize() {
         loginSubmit.setOnAction(event -> handleLogin());
-        switchToRegister.setOnAction(event -> switchToRegister());
+        switchToRegister.setOnAction(event -> {
+            try {
+                switchToRegister(event);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        returnStartScene.setOnAction(event -> {
+            try {
+                returnStartScene(event);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     private void handleLogin() {
         String username = usernameField.getText();
         String password = passwordField.getText();
-
-        GameClient.sendLogin(username, password);
+        // Gửi request đến server để đăng nhập
+        GameClient.getInstance().sendLogin(username, password);
     }
 
-    private void switchToRegister() {
-        // Chuyển đến giao diện đăng ký
-        // Bạn có thể sử dụng SceneSwitcher hoặc bất kỳ phương thức nào bạn đã thiết lập
+    private void switchToRegister(ActionEvent event) throws IOException {
+        Main.switchScene(event, "/client/view/registerScene.fxml");
+    }
+
+    private void returnStartScene(ActionEvent event) throws IOException {
+        Main.switchScene(event, "/client/view/startScene.fxml");
     }
 }

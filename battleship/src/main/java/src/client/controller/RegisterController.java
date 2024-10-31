@@ -1,30 +1,50 @@
 package src.client.controller;
 
+import java.io.IOException;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextField;
 import src.client.GameClient;
+import src.client.Main;
+
 public class RegisterController {
     @FXML
-    private TextField nameField;
+    private TextField nameField;        
 
     @FXML
-    private TextField usernameField;
+    private TextField usernameField;    
 
     @FXML
-    private TextField passwordField;
+    private TextField passwordField;    
 
     @FXML
-    private Hyperlink switchToLogin;
+    private Hyperlink switchToLogin;   
 
     @FXML
-    private Button registerSubmit;
+    private Button registerSubmit;  
+    
+    @FXML
+    private Button returnStartScene;
 
     @FXML
     private void initialize() {
         registerSubmit.setOnAction(event -> handleRegister());
-        switchToLogin.setOnAction(event -> switchToLogin());
+        switchToLogin.setOnAction(event -> {
+            try {
+                switchToLogin(event);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        returnStartScene.setOnAction(event -> {
+            try {
+                returnStartScene(event);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     private void handleRegister() {
@@ -32,11 +52,14 @@ public class RegisterController {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
-        GameClient.sendRegister(name, username, password);
+        GameClient.getInstance().sendRegister(name, username, password);
     }
 
-    private void switchToLogin() {
-        // Chuyển đến giao diện đăng nhập
-        // Bạn có thể sử dụng SceneSwitcher hoặc bất kỳ phương thức nào bạn đã thiết lập
+    private void switchToLogin(ActionEvent event) throws IOException {
+        Main.switchScene(event, "/client/view/loginScene.fxml");
+    }
+
+    private void returnStartScene(ActionEvent event) throws IOException {
+        Main.switchScene(event, "/client/view/startScene.fxml");
     }
 }
