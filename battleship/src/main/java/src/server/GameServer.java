@@ -68,6 +68,9 @@ public class GameServer {
                                 output.println("login failed");
                             }
                             break;
+                        case "EXIT":
+                            clientSocket.close();
+                            break;
                         default:
                             output.println("Invalid command");
                             break;

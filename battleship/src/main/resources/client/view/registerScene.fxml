@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="686.0" prefWidth="1078.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.client.controller.LoginController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="686.0" prefWidth="1078.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.client.controller.RegisterController">
    <children>
       <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="600.0" prefWidth="957.0" VBox.vgrow="ALWAYS">
          <children>
@@ -32,11 +32,16 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField id="fullnameField" fx:id="usernameField" layoutX="415.0" layoutY="279.0" prefHeight="26.0" prefWidth="265.0" promptText="enter your name" />
-            <TextField id="usernameField" fx:id="usernameField1" layoutX="415.0" layoutY="316.0" prefHeight="26.0" prefWidth="265.0" promptText="enter username" />
-            <TextField id="passwordField" fx:id="passwordField" layoutX="415.0" layoutY="351.0" prefHeight="26.0" prefWidth="266.0" promptText="enter password" />
-            <Hyperlink id="switchToLogin" fx:id="switchToRegister" layoutX="417.0" layoutY="378.0" text="Have an account? Login here" />
-            <Button id="submitRegister" fx:id="loginSubmit" layoutX="440.0" layoutY="416.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="115.0" text="Register">
+            <TextField fx:id="nameField" layoutX="415.0" layoutY="279.0" prefHeight="26.0" prefWidth="265.0" promptText="enter your name" />
+            <TextField fx:id="usernameField" layoutX="415.0" layoutY="316.0" prefHeight="26.0" prefWidth="265.0" promptText="enter username" />
+            <TextField fx:id="passwordField" layoutX="415.0" layoutY="351.0" prefHeight="26.0" prefWidth="266.0" promptText="enter password" />
+            <Hyperlink fx:id="switchToLogin" layoutX="417.0" layoutY="378.0" text="Have an account? Login here" />
+            <Button fx:id="registerSubmit" layoutX="440.0" layoutY="416.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="115.0" text="Register">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Button>
+            <Button fx:id="returnStartScene" layoutX="948.0" layoutY="625.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="115.0" text="Return ">
                <font>
                   <Font size="22.0" />
                </font>
