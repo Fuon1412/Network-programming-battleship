@@ -10,14 +10,17 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.*;
 
 import src.server.models.Player;
 
 public class PlayerService {
-    //Code bẩn vcl :v, nhưng méo code thế này thì méo chạy được =))
-    private static final String PATH = "C:\\Users\\phuon\\OneDrive\\Desktop\\20241\\NetworkPrograming\\Final_term\\battleship\\src\\main\\resources\\data\\players.json";
+    // Code bẩn vcl :v, nhưng méo code thế này thì méo chạy được =))
+    private static final Path PATH = Paths.get("");
     private final Set<Player> registeredPlayers = ConcurrentHashMap.newKeySet();
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -60,22 +63,23 @@ public class PlayerService {
     // Load thông tin người chơi từ file json
     private boolean loadPlayersFromJson() {
         try (InputStream inputStream = getClass().getResourceAsStream("/data/players.json");
-         Reader reader = new InputStreamReader(inputStream)) {
-        TypeToken<Set<Player>> typeToken = new TypeToken<Set<Player>>() {};
-        Set<Player> playersFromFile = gson.fromJson(reader, typeToken.getType());
-        if (playersFromFile != null) {
-            registeredPlayers.addAll(playersFromFile);
+                Reader reader = new InputStreamReader(inputStream)) {
+            TypeToken<Set<Player>> typeToken = new TypeToken<Set<Player>>() {
+            };
+            Set<Player> playersFromFile = gson.fromJson(reader, typeToken.getType());
+            if (playersFromFile != null) {
+                registeredPlayers.addAll(playersFromFile);
+            }
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
         }
-        return true;
-    } catch (IOException e) {
-        e.printStackTrace();
-        return false;
-    }
     }
 
     // Lưu thông tin người chơi vào file json
     private boolean writePlayersToJson() {
-        try (Writer writer = new FileWriter(PATH)) {
+        try (Writer writer = Files.newBufferedWriter(PATH)) {
             gson.toJson(registeredPlayers, writer);
             return true;
         } catch (IOException e) {

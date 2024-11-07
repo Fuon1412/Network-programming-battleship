@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Client</title>
+</head>
+<body>
+    <h1>Game Client</h1>
+    <div>
+        <h2>Register</h2>
+        <input id="reg-name" type="text" placeholder="Name">
+        <input id="reg-username" type="text" placeholder="Username">
+        <input id="reg-password" type="password" placeholder="Password">
+        <button onclick="register()">Register</button>
+        <p id="reg-response"></p>
+    </div>
+    <div>
+        <h2>Login</h2>
+        <input id="login-username" type="text" placeholder="Username">
+        <input id="login-password" type="password" placeholder="Password">
+        <button onclick="login()">Login</button>
+        <p id="login-response"></p>
+    </div>
+    <script src="renderer.js"></script>
+</body>
+</html>

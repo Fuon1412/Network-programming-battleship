@@ -1,0 +1,24 @@
+{
+  "name": "battleship-client",
+  "version": "1.0.0",
+  "description": "client of battleship game",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "nodemon"
+  },
+  "keywords": [
+    "client"
+  ],
+  "author": "Fuon141204",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^33.1.0",
+    "nodemon": "^3.1.7"
+  },
+  "dependencies": {
+    "battleship-client": "file:",
+    "bootstrap": "^5.3.3",
+    "express": "^4.21.1"
+  }
+}
