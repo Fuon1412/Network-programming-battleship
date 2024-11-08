@@ -1,8 +1,8 @@
-// main.js
-
 const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
 const net = require("net");
+
+let client; // Persistent client socket
 
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
@@ -16,7 +16,7 @@ const createWindow = () => {
     },
   });
 
-  mainWindow.loadFile("./src/index.html");
+  mainWindow.loadFile("./views/main.html");
 };
 
 app.whenReady().then(() => {
@@ -35,40 +35,58 @@ app.on("window-all-closed", () => {
   }
 });
 
-ipcMain.handle("login", async (event, username, password) => {
+ipcMain.handle("connect-to-server", () => {
   return new Promise((resolve, reject) => {
-    const client = new net.Socket();
+    client = new net.Socket();
     client.connect(8080, "127.0.0.1", () => {
-      client.write(`LOGIN;${username};${password}\n`);
+      resolve("Connected to server");
     });
 
-    client.on("data", (data) => {
+    client.on("error", (err) => {
+      reject("Failed to connect to server: " + err.message);
+    });
+  });
+});
+
+ipcMain.handle("login", async (event, username, password) => {
+  return new Promise((resolve, reject) => {
+    if (!client) {
+      reject("Not connected to server");
+      return;
+    }
+    client.write(`LOGIN;${username};${password}\n`);
+    client.once("data", (data) => {
       resolve(data.toString());
-      client.destroy();
     });
 
     client.on("error", (err) => {
       reject(err.message);
-      client.destroy();
     });
   });
 });
 
 ipcMain.handle("register", async (event, name, username, password) => {
   return new Promise((resolve, reject) => {
-    const client = new net.Socket();
-    client.connect(8080, "127.0.0.1", () => {
-      client.write(`REGISTER;${name};${username};${password}\n`);
-    });
-
-    client.on("data", (data) => {
+    if (!client) {
+      reject("Not connected to server");
+      return;
+    }
+    client.write(`REGISTER;${name};${username};${password}\n`);
+    client.once("data", (data) => {
       resolve(data.toString());
-      client.destroy();
     });
 
     client.on("error", (err) => {
       reject(err.message);
-      client.destroy();
     });
   });
+});
+
+ipcMain.on("exit-app", () => {
+  if (client) {
+    client.write("EXIT\n");
+    client.end();
+    client.destroy();
+  }
+  app.quit();
 });

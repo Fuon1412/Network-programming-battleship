@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Main</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../assets/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Initial Scene -->
+      <div id="initialScene" class="scene">
+        <h1>Game Client</h1>
+        <button type="button" class="btn btn-primary" id="startButton">
+          Start Game
+        </button>
+        <button type="button" class="btn btn-danger" id="exitButton">
+          Exit
+        </button>
+      </div>
+
+      <!-- Game Menu Scene -->
+      <div id="gameMenuScene" class="scene d-none">
+        <h1>Game Menu</h1>
+        <button type="button" class="btn btn-success" id="multiplayerButton">
+          Multiplayer
+        </button>
+        <button type="button" class="btn btn-info" id="singlePlayerButton">
+          Single Player
+        </button>
+        <button type="button" class="btn btn-secondary" id="returnButton">
+          Return
+        </button>
+      </div>
+
+      <!-- Login Modal -->
+      <div
+        class="modal fade"
+        id="loginModal"
+        tabindex="-1"
+        aria-labelledby="loginModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="loginModalLabel">Login</h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form id="loginForm">
+                <div class="form-group">
+                  <label for="username">Username</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="username"
+                    placeholder="Enter username"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="password">Password</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="password"
+                    placeholder="Enter password"
+                  />
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                id="modalLoginButton"
+              >
+                Login
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Register Modal -->
+      <div
+        class="modal fade"
+        id="registerModal"
+        tabindex="-1"
+        aria-labelledby="registerModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="registerModalLabel">Register</h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form id="registerForm">
+                <div class="form-group">
+                  <label for="fullName">Full Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="fullName"
+                    placeholder="Enter full name"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="regUsername">Username</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="regUsername"
+                    placeholder="Enter username"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="regPassword">Password</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="regPassword"
+                    placeholder="Enter password"
+                  />
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                id="modalRegisterButton"
+              >
+                Register
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- jQuery, Popper.js, Bootstrap JS -->
+    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="../node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
+    <script src="../src/renderer.js"></script>
+  </body>
+</html>
