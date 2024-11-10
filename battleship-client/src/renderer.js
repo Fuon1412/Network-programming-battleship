@@ -19,8 +19,8 @@ $(function () {
 
   const register = async () => {
     const fullName = $("#fullName").val();
-    const username = $("#reg-username").val();
-    const password = $("#reg-password").val();
+    const username = $("#regUsername").val();
+    const password = $("#regPassword").val();
 
     try {
       const response = await window.api.register(fullName, username, password);
@@ -37,7 +37,6 @@ $(function () {
   const connectToServer = async () => {
     try {
       const response = await window.api.connectToServer();
-      alert(response);
     } catch (error) {
       alert("Failed to connect to server: " + error);
     }
@@ -71,4 +70,15 @@ $(function () {
 
   $("#modalLoginButton").on("click", login);
   $("#modalRegisterButton").on("click", register);
+
+  // Event listeners for switching modals
+  $("#showRegisterModal").on("click", function () {
+    $("#loginModal").modal("hide");
+    $("#registerModal").modal("show");
+  });
+
+  $("#showLoginModal").on("click", function () {
+    $("#registerModal").modal("hide");
+    $("#loginModal").modal("show");
+  });
 });

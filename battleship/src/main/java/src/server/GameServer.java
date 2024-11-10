@@ -91,11 +91,25 @@ public class GameServer {
             }
             String username = requestParts[1];
             String password = requestParts[2];
-            Player player = playerService.loginPlayer(username, password);
-            if (player != null) {
-                output.println("login success " + player.getName() + " " + player.getElo());
-            } else {
-                output.println("login failed");
+            String loginResult = playerService.loginPlayer(username, password);
+
+            switch (loginResult) {
+                case "LOGIN_SUCCESS":
+                    Player player = playerService.getPlayerByUsername(username);
+                    output.println("login success " + player.getName() + " " + player.getElo());
+                    break;
+
+                case "ALREADY_LOGGED_IN":
+                    output.println("login failed - already logged in");
+                    break;
+
+                case "INVALID_CREDENTIALS":
+                    output.println("login failed - invalid credentials");
+                    break;
+
+                default:
+                    output.println("login failed - unknown error");
+                    break;
             }
         }
     }

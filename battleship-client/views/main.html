@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Main</title>
     <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
     <link rel="stylesheet" href="../assets/style.css" />
   </head>
   <body>
@@ -76,6 +80,10 @@
                   />
                 </div>
               </form>
+              <p>
+                Does not have an account?
+                <a href="#" id="showRegisterModal">Register here</a>
+              </p>
             </div>
             <div class="modal-footer">
               <button
@@ -148,6 +156,10 @@
                   />
                 </div>
               </form>
+              <p>
+                Already have an account?
+                <a href="#" id="showLoginModal">Login here</a>
+              </p>
             </div>
             <div class="modal-footer">
               <button
@@ -172,6 +184,7 @@
     <!-- jQuery, Popper.js, Bootstrap JS -->
     <script src="../node_modules/jquery/dist/jquery.min.js"></script>
     <script src="../node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="../src/renderer.js"></script>
   </body>
 </html>

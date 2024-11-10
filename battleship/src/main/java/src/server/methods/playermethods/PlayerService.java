@@ -22,6 +22,7 @@ public class PlayerService {
     // Code bẩn vcl :v, nhưng méo code thế này thì méo chạy được =))
     private static final Path PATH = Paths.get("");
     private final Set<Player> registeredPlayers = ConcurrentHashMap.newKeySet();
+    private Set<Player> currentPlayers = ConcurrentHashMap.newKeySet();
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     // Constructor: load thông tin người chơi từ file json
@@ -51,13 +52,36 @@ public class PlayerService {
         }
     }
 
-    public synchronized Player loginPlayer(String username, String password) {
+    public synchronized String loginPlayer(String username, String password) {
+        // Kiểm tra xem người chơi đã đăng nhập chưa
+        for (Player player : currentPlayers) {
+            if (player.getUsername().equals(username)) {
+                System.out.println("Player " + username + " is already logged in.");
+                return "ALREADY_LOGGED_IN";
+            }
+        }
+
+        // Tìm kiếm trong danh sách người chơi đã đăng ký
         for (Player player : registeredPlayers) {
             if (player.getUsername().equals(username) && player.getPassword().equals(password)) {
+                currentPlayers.add(player);
+                return "LOGIN_SUCCESS";
+            }
+        }
+        return "INVALID_CREDENTIALS";
+    }
+
+    public Player getPlayerByUsername(String username) {
+        for (Player player : registeredPlayers) {
+            if (player.getUsername().equals(username)) {
                 return player;
             }
         }
         return null;
+    }
+
+    public synchronized boolean logoutPlayer(String username) {
+        return currentPlayers.removeIf(player -> player.getUsername().equals(username));
     }
 
     // Load thông tin người chơi từ file json
