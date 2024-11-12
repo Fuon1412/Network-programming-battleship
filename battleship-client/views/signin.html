@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <link rel="stylesheet" href="../assets/signin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+<header>
+    <!-- Insert appropriate header based on user's login state -->
+    <div id="header-on" style="display: none;"> <!-- Displayed if user is logged in -->
+        <!-- Include your header_on HTML here -->
+    </div>
+    <div id="header-off" style="display: none;"> <!-- Displayed if user is not logged in -->
+        <!-- Include your header_off HTML here -->
+    </div>
+</header>
+<div class="signin">
+    <div class="main-container">
+        <div class="wrapper">
+            <!-- Success message for login with redirect -->
+            <div id="success-message" style="display: none;">
+                <script>
+                    if (window.location.search.includes("success")) {
+                        window.location.href = '/home';
+                        const param = new URLSearchParams(window.location.search);
+                        localStorage.setItem("userId", JSON.stringify(param.get('success')));
+                    }
+                </script>
+                <div class="alert alert-success col-xs-offset-1 col-xs-10">You are logged in</div>
+            </div>
+
+            <!-- Logout message -->
+            <div id="logout-message" style="display: none;">
+                <div class="alert alert-success col-xs-offset-1 col-xs-10">You have been logged out.</div>
+            </div>
+
+            <!-- Sign-in form -->
+            <form action="/signin" method="post">
+                <h1>Sign In</h1>
+                <div class="inputbox">
+                    <input type="text" name="username" placeholder="Username" required>
+                    <i class="fas fa-user icon"></i>
+                </div>
+
+                <!-- Username error message -->
+                <div id="username-error" style="display: none;">
+                    <div class="alert alert-info">Your username does not exist</div>
+                </div>
+
+                <div class="inputbox">
+                    <input type="password" name="password" placeholder="Password" required>
+                    <i class="fas fa-lock icon"></i>
+                </div>
+
+                <!-- Password error message -->
+                <div id="password-error" style="display: none;">
+                    <div class="alert alert-info">Your password is incorrect</div>
+                </div>
+
+                <button type="submit">Sign In</button>
+
+                <!-- Registration link -->
+                <div class="register">
+                    <p>Don't have an account? <a href="/signup">Sign Up</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>
