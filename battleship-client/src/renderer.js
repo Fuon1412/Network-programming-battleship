@@ -8,9 +8,20 @@ $(function () {
     try {
       const response = await window.api.login(username, password);
       alert(response);
-      if (response.includes("success")) {
+      if (response.startsWith("login success")) {
         $("#loginModal").modal("hide");
         alert("Login successful");
+
+        const playerInfo = response.split(" ");
+        const playerName = playerInfo[2];
+        const playerElo = playerInfo[3];
+
+        localStorage.setItem("playerName", playerName);
+        localStorage.setItem("playerUsername", username);
+        localStorage.setItem("playerElo", playerElo);
+
+        // Redirect to lobby
+        window.location.href = "lobby.html";
       }
     } catch (error) {
       alert("Login failed: " + error);

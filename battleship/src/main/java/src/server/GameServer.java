@@ -51,6 +51,10 @@ public class GameServer {
                             handleLogin(requestParts, output);
                             break;
 
+                        case "LOGOUT":
+                            handleLogOut(requestParts, output);
+                            break;
+
                         case "EXIT":
                             System.out.println("Client disconnected.");
                             clientSocket.close();
@@ -111,6 +115,17 @@ public class GameServer {
                     output.println("login failed - unknown error");
                     break;
             }
+        }
+
+        private void handleLogOut(String[] requestParts, PrintWriter output) {
+            if (requestParts.length < 2) {
+                output.println("logout failed - invalid parameters");
+                return;
+            }
+            String username = requestParts[1];
+            boolean result = playerService.logoutPlayer(username);
+            output.println("logout " + (result ? "success" : "failed"));
+
         }
     }
 }

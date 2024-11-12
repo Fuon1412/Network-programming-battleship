@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lobby</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="../assets/style.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container mt-5">
+      <div class="row">
+        <div class="col-md-12">
+          <h1>Welcome to the Lobby</h1>
+          <div id="playerInfo" class="mt-4">
+            <h3>Player Information</h3>
+            <p>Name: <span id="playerName"></span></p>
+            <p>Username: <span id="playerUsername"></span></p>
+            <p>ELO: <span id="playerElo"></span></p>
+          </div>
+          <div class="mt-4">
+            <button class="btn btn-primary" id="startGameButton">
+              Start Game
+            </button>
+            <button class="btn btn-secondary" id="logoutButton">Logout</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- jQuery, Popper.js, Bootstrap JS -->
+    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="../node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="../src/lobby.js"></script>
+  </body>
+</html>
