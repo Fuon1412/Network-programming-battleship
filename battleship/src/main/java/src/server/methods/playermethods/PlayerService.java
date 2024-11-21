@@ -17,6 +17,7 @@ import java.util.*;
 import java.util.concurrent.*;
 
 import src.server.models.Player;
+import src.server.ProtocolCode;
 
 public class PlayerService {
     // Code bẩn vcl :v, nhưng méo code thế này thì méo chạy được =))
@@ -57,7 +58,7 @@ public class PlayerService {
         for (Player player : currentPlayers) {
             if (player.getUsername().equals(username)) {
                 System.out.println("Player " + username + " is already logged in.");
-                return "ALREADY_LOGGED_IN";
+                return ProtocolCode.ALREADY_LOGGED_IN;
             }
         }
 
@@ -65,10 +66,10 @@ public class PlayerService {
         for (Player player : registeredPlayers) {
             if (player.getUsername().equals(username) && player.getPassword().equals(password)) {
                 currentPlayers.add(player);
-                return "LOGIN_SUCCESS";
+                return ProtocolCode.LOGIN_SUCCESS;
             }
         }
-        return "INVALID_CREDENTIALS";
+        return ProtocolCode.INVALID_CREDENTIALS;
     }
 
     public Player getPlayerByUsername(String username) {
