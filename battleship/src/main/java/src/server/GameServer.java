@@ -1,5 +1,4 @@
 package src.server;
-
 import src.server.methods.playermethods.PlayerService;
 import src.server.models.Player;
 
@@ -43,19 +42,19 @@ public class GameServer {
                     String command = requestParts[0];
 
                     switch (command) {
-                        case "REGISTER":
+                        case ProtocolCode.REGISTER:
                             handleRegister(requestParts, output);
                             break;
 
-                        case "LOGIN":
+                        case ProtocolCode.LOGIN:
                             handleLogin(requestParts, output);
                             break;
 
-                        case "LOGOUT":
+                        case ProtocolCode.LOGOUT:
                             handleLogOut(requestParts, output);
                             break;
 
-                        case "EXIT":
+                        case ProtocolCode.EXIT:
                             System.out.println("Client disconnected.");
                             clientSocket.close();
                             return;
@@ -98,21 +97,21 @@ public class GameServer {
             String loginResult = playerService.loginPlayer(username, password);
 
             switch (loginResult) {
-                case "LOGIN_SUCCESS":
+                case ProtocolCode.LOGIN_SUCCESS:
                     Player player = playerService.getPlayerByUsername(username);
-                    output.println("login success " + player.getName() + " " + player.getElo());
+                    output.println(ProtocolCode.LOGIN_SUCCESS + " " + player.getName() + " " + player.getElo());
                     break;
 
-                case "ALREADY_LOGGED_IN":
-                    output.println("login failed - already logged in");
+                case ProtocolCode.ALREADY_LOGGED_IN: 
+                    output.println(ProtocolCode.ALREADY_LOGGED_IN);
                     break;
 
-                case "INVALID_CREDENTIALS":
-                    output.println("login failed - invalid credentials");
+                case ProtocolCode.INVALID_CREDENTIALS:
+                    output.println(ProtocolCode.INVALID_CREDENTIALS);
                     break;
 
                 default:
-                    output.println("login failed - unknown error");
+                    output.println(ProtocolCode.UNKNOWN_ERROR);
                     break;
             }
         }

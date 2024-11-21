@@ -7,9 +7,10 @@ package src.server;
 public class ProtocolCode {
     // Mã request từ client
     // Các thao tác liên quan đến người chơi
-    public static final String LOGIN = "1001";
-    public static final String REGISTER = "1002";
-    public static final String LOGOUT = "1003";
+    public static final String LOGIN = "101";
+    public static final String REGISTER = "102";
+    public static final String LOGOUT = "103";
+    public static final String EXIT = "104";
 
     // Các thao tác liên quan đến game
     // Room protocol code
@@ -30,9 +31,17 @@ public class ProtocolCode {
     // Mã phản hồi từ server
     public static final String LOGIN_SUCCESS = "201";
     public static final String REGISTER_SUCCESS = "202";
+    public static final String INIT_SUCCESS = "211";
 
     // Mã lỗi
+    // Mã lỗi 4xx: lỗi từ client
     public static final String LOGIN_FAIL = "401";
     public static final String REGISTER_FAIL = "402";
     public static final String NOT_FOUND = "404";
+    public static final String ALREADY_LOGGED_IN = "411";
+    public static final String INVALID_CREDENTIALS = "412";
+
+    // Mã lỗi 5xx: lỗi từ server
+    public static final String UNKNOWN_ERROR = "595";
+    public static final String INVALID_SIZE = "505";
 }
