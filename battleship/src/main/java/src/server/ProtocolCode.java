@@ -29,8 +29,8 @@ public class ProtocolCode {
     public static final String CHAT = "143";
 
     // Mã phản hồi từ server
-    public static final String LOGIN_SUCCESS = "201";
-    public static final String REGISTER_SUCCESS = "202";
+    public static final String LOGIN_SUCCESS = "200";
+    public static final String REGISTER_SUCCESS = "201";
     public static final String INIT_SUCCESS = "211";
 
     // Mã lỗi
