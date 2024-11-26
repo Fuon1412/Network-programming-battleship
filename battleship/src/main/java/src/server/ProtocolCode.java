@@ -29,9 +29,13 @@ public class ProtocolCode {
     public static final String CHAT = "143";
 
     // Mã phản hồi từ server
-    public static final String LOGIN_SUCCESS = "201";
-    public static final String REGISTER_SUCCESS = "202";
+    public static final String LOGIN_SUCCESS = "200";
+    public static final String REGISTER_SUCCESS = "201";
     public static final String INIT_SUCCESS = "211";
+    public static final String CREATE_ROOM_SUCCESS = "220";
+    public static final String JOIN_ROOM_SUCCESS = "221";
+    public static final String REMOVE_ROOM_SUCCESS = "222";
+    public static final String LEAVE_ROOM_SUCCESS = "223";
 
     // Mã lỗi
     // Mã lỗi 4xx: lỗi từ client
@@ -44,4 +48,6 @@ public class ProtocolCode {
     // Mã lỗi 5xx: lỗi từ server
     public static final String UNKNOWN_ERROR = "595";
     public static final String INVALID_SIZE = "505";
+    public static final String FULL_ROOM = "520";
+    public static final String JOIN_ROOM_FAIL = "521";
 }
