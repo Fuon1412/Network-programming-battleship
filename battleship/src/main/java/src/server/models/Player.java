@@ -18,5 +18,6 @@ public class Player {
     private String password;
     private boolean isOnline;
     private int elo;
+    public boolean isReady;
 
 }

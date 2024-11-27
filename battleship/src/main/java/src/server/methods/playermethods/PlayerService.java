@@ -85,6 +85,33 @@ public class PlayerService {
         return currentPlayers.removeIf(player -> player.getUsername().equals(username));
     }
 
+    public synchronized boolean updateElo(String username, int elo) {
+        for (Player player : registeredPlayers) {
+            if (player.getUsername().equals(username)) {
+                player.setElo(player.getElo() + elo);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public synchronized boolean isOnline(String username) {
+        for (Player player : currentPlayers) {
+            if (player.getUsername().equals(username)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public synchronized Set<Player> getOnlinePlayers() {
+        return currentPlayers;
+    }
+
+    public synchronized boolean isReady(){
+        return true;
+    }
+
     // Load thông tin người chơi từ file json
     private boolean loadPlayersFromJson() {
         try (InputStream inputStream = getClass().getResourceAsStream("/data/players.json");
