@@ -20,6 +20,7 @@
     "@popperjs/core": "^2.11.8",
     "battleship-client": "file:",
     "bootstrap": "^5.3.3",
+    "dotenv": "^16.4.6",
     "express": "^4.21.1",
     "jquery": "^3.7.1"
   }
