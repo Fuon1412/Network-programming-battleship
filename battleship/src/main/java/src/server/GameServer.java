@@ -29,7 +29,7 @@ public class GameServer {
 
     private static class ClientHandler extends Thread {
         private final Socket clientSocket;
-
+        
         public ClientHandler(Socket socket) {
             this.clientSocket = socket;
         }
@@ -83,7 +83,7 @@ public class GameServer {
                             break;
                         
                         case ProtocolCode.EXIT:
-                            System.out.println("Client disconnected.");
+                            System.out.println("Client "+clientSocket.getInetAddress().getHostAddress()+" disconnected.");
                             clientSocket.close();
                             return;
 

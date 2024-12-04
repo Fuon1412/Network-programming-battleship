@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
 const net = require("net");
+require("dotenv").config();
 
 let client; // Persistent client socket
 
@@ -54,7 +55,7 @@ ipcMain.handle("login", async (event, username, password) => {
       reject("Not connected to server");
       return;
     }
-    client.write(`LOGIN;${username};${password}\n`);
+    client.write(`${process.env.LOGIN};${username};${password}\n`);
     client.once("data", (data) => {
       resolve(data.toString());
     });
@@ -71,7 +72,24 @@ ipcMain.handle("register", async (event, name, username, password) => {
       reject("Not connected to server");
       return;
     }
-    client.write(`REGISTER;${name};${username};${password}\n`);
+    client.write(`${process.env.REGISTER};${name};${username};${password}\n`);
+    client.once("data", (data) => {
+      resolve(data.toString());
+    });
+
+    client.on("error", (err) => {
+      reject(err.message);
+    });
+  });
+});
+
+ipcMain.handle("logout", async (event,username) => {
+  return new Promise((resolve, reject) => {
+    if (!client) {
+      reject("Not connected to server");
+      return;
+    }
+    client.write(`${process.env.LOGOUT};${username}\n`);
     client.once("data", (data) => {
       resolve(data.toString());
     });
@@ -84,7 +102,7 @@ ipcMain.handle("register", async (event, name, username, password) => {
 
 ipcMain.on("exit-app", () => {
   if (client) {
-    client.write("EXIT\n");
+    client.write(`${process.env.EXIT}\n`);
     client.end();
     client.destroy();
   }

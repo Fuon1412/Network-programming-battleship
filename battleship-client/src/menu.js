@@ -1,5 +1,4 @@
 // renderer.js
-
 $(function () {
   const login = async () => {
     const username = $("#username").val();
@@ -7,14 +6,13 @@ $(function () {
 
     try {
       const response = await window.api.login(username, password);
-      alert(response);
-      if (response.startsWith("login success")) {
+      if (response.startsWith(window.protocol.LOGIN_SUCCESS)) {
         $("#loginModal").modal("hide");
         alert("Login successful");
 
         const playerInfo = response.split(" ");
-        const playerName = playerInfo[2];
-        const playerElo = playerInfo[3];
+        const playerName = playerInfo[1];
+        const playerElo = playerInfo[2];
 
         localStorage.setItem("playerName", playerName);
         localStorage.setItem("playerUsername", username);
@@ -22,6 +20,21 @@ $(function () {
 
         // Redirect to lobby
         window.location.href = "lobby.html";
+      }
+      else
+      {
+        switch(response)
+        {
+          case window.protocol.INVALID_CREDENTIALS:
+            alert("Invalid credentials");
+            break;
+          case window.protocol.ALREADY_LOGGED_IN:
+            alert("Already logged in");
+            break;
+          default:
+            alert("Login failed: " + response);
+            break;
+        }
       }
     } catch (error) {
       alert("Login failed: " + error);
@@ -35,8 +48,7 @@ $(function () {
 
     try {
       const response = await window.api.register(fullName, username, password);
-      alert(response);
-      if (response.includes("success")) {
+      if (response.includes(window.protocol.REGISTER_SUCCESS)) {
         $("#registerModal").modal("hide");
         alert("Registration successful");
       }
