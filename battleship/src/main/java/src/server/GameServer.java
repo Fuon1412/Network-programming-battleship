@@ -1,4 +1,5 @@
 package src.server;
+
 import src.server.methods.playermethods.PlayerService;
 import src.server.methods.onlinemethods.RoomService;
 import src.server.models.Player;
@@ -6,12 +7,19 @@ import src.server.models.Room;
 
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import com.google.gson.Gson;
 
 public class GameServer {
     private static final int PORT = 8080;
     static PlayerService playerService = new PlayerService();
     static RoomService roomService = new RoomService();
+    private static final Map<String, List<ClientHandler>> rooms = new HashMap<>();
+    private static final List<ClientHandler> clients = new ArrayList<>(); 
 
     public static void main(String[] args) {
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
@@ -19,7 +27,9 @@ public class GameServer {
             while (true) {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("Client connected: " + clientSocket.getInetAddress().getHostAddress());
-                new ClientHandler(clientSocket).start();
+                ClientHandler clientHandler = new ClientHandler(clientSocket);
+                clients.add(clientHandler); // Add new client to the list
+                clientHandler.start();
             }
         } catch (IOException e) {
             System.err.println("Could not start server on port " + PORT);
@@ -27,9 +37,26 @@ public class GameServer {
         }
     }
 
+    // Send notification to all clients
+    public static void notifyAllClients(String message) {
+        for (ClientHandler client : clients) {
+            client.sendMessage(message);
+        }
+    }
+
+    public static void sendToRoom(String roomName, String message, PrintWriter output) {
+        List<ClientHandler> playersInRoom = rooms.get(roomName);
+        if (playersInRoom != null) {
+            for (@SuppressWarnings("unused") ClientHandler player : playersInRoom) {
+                output.println(message);
+            }
+        }
+    }
+
     private static class ClientHandler extends Thread {
         private final Socket clientSocket;
-        
+        private PrintWriter output;
+
         public ClientHandler(Socket socket) {
             this.clientSocket = socket;
         }
@@ -37,11 +64,12 @@ public class GameServer {
         @Override
         public void run() {
             try (BufferedReader input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                    PrintWriter output = new PrintWriter(clientSocket.getOutputStream(), true)) {
-
+                 PrintWriter output = new PrintWriter(clientSocket.getOutputStream(), true)) {
+                this.output = output;
+                String clientAddress = clientSocket.getInetAddress().getHostAddress();
                 String request;
                 while ((request = input.readLine()) != null) {
-                    System.out.println("Received request: " + request);
+                    System.out.println("Received request from client " + clientAddress + ": " + request);
                     String[] requestParts = request.split(";");
                     String command = requestParts[0];
 
@@ -58,6 +86,10 @@ public class GameServer {
                             handleLogOut(requestParts, output);
                             break;
 
+                        case ProtocolCode.ONLINE:
+                            handleGetPlayerOnline(output);
+                            break;
+
                         case ProtocolCode.CREATE_ROOM:
                             handleCreateRoom(requestParts, output);
                             break;
@@ -65,25 +97,25 @@ public class GameServer {
                         case ProtocolCode.GET_ROOM_LIST:
                             handleGetRoomList(output);
                             break;
-                        
+
                         case ProtocolCode.JOIN_ROOM:
                             handleJoinRoom(requestParts, output);
                             break;
 
                         case ProtocolCode.LEAVE_ROOM:
-                            // handleLeaveRoom(requestParts, output);
+                            handleLeaveRoom(requestParts, output);
                             break;
-                        
+
                         case ProtocolCode.READY:
                             // handleReady(requestParts, output);
                             break;
-                        
+
                         case ProtocolCode.START_GAME:
                             // handleStartGame(requestParts, output);
                             break;
-                        
+
                         case ProtocolCode.EXIT:
-                            System.out.println("Client "+clientSocket.getInetAddress().getHostAddress()+" disconnected.");
+                            System.out.println("Client " + clientSocket.getInetAddress().getHostAddress() + " disconnected.");
                             clientSocket.close();
                             return;
 
@@ -128,9 +160,13 @@ public class GameServer {
                 case ProtocolCode.LOGIN_SUCCESS:
                     Player player = playerService.getPlayerByUsername(username);
                     output.println(ProtocolCode.LOGIN_SUCCESS + " " + player.getName() + " " + player.getElo());
+
+                    // Notify all clients about the login event
+                    String loginMessage = username + " has logged in.";
+                    notifyAllClients(loginMessage);
                     break;
 
-                case ProtocolCode.ALREADY_LOGGED_IN: 
+                case ProtocolCode.ALREADY_LOGGED_IN:
                     output.println(ProtocolCode.ALREADY_LOGGED_IN);
                     break;
 
@@ -152,6 +188,10 @@ public class GameServer {
             String username = requestParts[1];
             boolean result = playerService.logoutPlayer(username);
             output.println(result ? ProtocolCode.LOGOUT_SUCCESS : ProtocolCode.LOGOUT_FAIL);
+
+            // Notify all clients about the logout event
+            String logoutMessage = username + " has logged out.";
+            notifyAllClients(logoutMessage);
         }
 
         private void handleCreateRoom(String[] requestParts, PrintWriter output) {
@@ -169,6 +209,13 @@ public class GameServer {
         private void handleGetRoomList(PrintWriter output) {
             List<Room> rooms = roomService.getRoomList();
             output.println(rooms);
+        }
+
+        private void handleGetPlayerOnline(PrintWriter output) {
+            List<Player> players = playerService.getPlayersOnline();
+            Gson gson = new Gson();
+            String playersList = gson.toJson(players);
+            output.println(playersList);
         }
 
         private void handleJoinRoom(String[] requestParts, PrintWriter output) {
@@ -192,9 +239,12 @@ public class GameServer {
             int roomId = Integer.parseInt(requestParts[2]);
             Player player = playerService.getPlayerByUsername(username);
             String result = roomService.leaveRoom(player, roomId);
-            output.println(result);
+            sendToRoom(username, result, output);
         }
 
-        
+        // Helper method to send message to this client
+        public void sendMessage(String message) {
+            output.println(message);
+        }
     }
 }

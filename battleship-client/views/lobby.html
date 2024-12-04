@@ -5,32 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lobby</title>
     <!-- Bootstrap CSS -->
-    <link
-      href="../assets/style.css"
-      rel="stylesheet"
-    />
+    <link href="../assets/style.css" rel="stylesheet" />
   </head>
   <body>
     <div class="container mt-5">
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-8">
           <h1>Welcome to the Lobby</h1>
+
+          <!-- Player Information Section -->
           <div id="playerInfo" class="mt-4">
             <h3>Player Information</h3>
             <p>Name: <span id="playerName"></span></p>
             <p>Username: <span id="playerUsername"></span></p>
             <p>ELO: <span id="playerElo"></span></p>
           </div>
+
+          <!-- Buttons -->
           <div class="mt-4">
             <button class="btn btn-primary" id="startGameButton">
               Start Game
             </button>
-            <
             <button class="btn btn-secondary" id="logoutButton">Logout</button>
+          </div>
+        </div>
+
+        <!-- Online Players Section (Placed in the second column) -->
+        <div class="col-md-4">
+          <div id="onlinePlayers" class="mt-4">
+            <h3>Online Players</h3>
+            <ul id="playerList" class="list-group">
+              <!-- Online players will be dynamically added here -->
+            </ul>
           </div>
         </div>
       </div>
     </div>
+
     <!-- jQuery, Popper.js, Bootstrap JS -->
     <script src="../node_modules/jquery/dist/jquery.min.js"></script>
     <script src="../node_modules/@popperjs/core/dist/umd/popper.min.js"></script>

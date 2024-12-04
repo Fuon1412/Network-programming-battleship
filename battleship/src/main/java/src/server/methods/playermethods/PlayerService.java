@@ -81,6 +81,14 @@ public class PlayerService {
         return null;
     }
 
+    public List<Player> getPlayersOnline(){
+        List<Player> onlinePlayers = new ArrayList<>();
+        for (Player player : currentPlayers) {
+            onlinePlayers.add(player);
+        }
+        return onlinePlayers;
+    }
+
     public synchronized boolean logoutPlayer(String username) {
         return currentPlayers.removeIf(player -> player.getUsername().equals(username));
     }

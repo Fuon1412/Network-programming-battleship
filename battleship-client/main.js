@@ -108,3 +108,20 @@ ipcMain.on("exit-app", () => {
   }
   app.quit();
 });
+
+ipcMain.handle("online-players", async (event) => {
+  return new Promise((resolve, reject) => {
+    if (!client) {
+      reject("Not connected to server");
+      return;
+    }
+    client.write(`${process.env.ONLINE}\n`);
+    client.once("data", (data) => {
+      resolve(JSON.parse(data));
+    });
+
+    client.on("error", (err) => {
+      reject(err.message);
+    });
+  });
+});
