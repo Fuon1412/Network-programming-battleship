@@ -10,6 +10,13 @@ contextBridge.exposeInMainWorld("api", {
     ipcRenderer.invoke("register", name, username, password),
   logout: (username) => ipcRenderer.invoke("logout", username),
   exitApp: () => ipcRenderer.send("exit-app"),
+  //Api lien quan den viec tao va tham gia phong
+  onlinePlayers: () => ipcRenderer.invoke("online-players"),
+  createRoom: (roomName) => ipcRenderer.invoke("create-room", roomName, size),
+  getRoomList: () => ipcRenderer.invoke("get-room-list"),
+  joinRoom: (roomId) => ipcRenderer.invoke("join-room", roomId),
+  ready: () => ipcRenderer.invoke("ready"),
+  leaveRoom: () => ipcRenderer.invoke("leave-room"),
 });
 
 contextBridge.exposeInMainWorld("protocol", {
@@ -17,6 +24,7 @@ contextBridge.exposeInMainWorld("protocol", {
   REGISTER: process.env.REGISTER,
   LOGOUT: process.env.LOGOUT,
   EXIT: process.env.EXIT,
+  ONLINE: process.env.ONLINE,
 
   CREATE_ROOM: process.env.CREATE_ROOM,
   GET_ROOM_LIST: process.env.GET_ROOM_LIST,

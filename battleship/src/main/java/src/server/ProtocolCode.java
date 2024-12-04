@@ -19,6 +19,7 @@ public class ProtocolCode {
     public static final String JOIN_ROOM = "120";
     public static final String READY = "121";
     public static final String LEAVE_ROOM = "122";
+    public static final String ONLINE = "123";
     // Game protocol code
     public static final String START_GAME = "130";
     public static final String INIT_BOARD = "131";
