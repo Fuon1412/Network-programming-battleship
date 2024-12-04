@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,maximum-scale=1">
+		<title>Battleboat.js - A JavaScript AI that beats humans at battleship.</title>
+		<meta name="description" content="Battleboat.js: A JavaScript AI that beats humans at battleship.">
+		<meta name="keywords" content="Battleboat.js, battleship, AI, robot, JavaScript">
+		<meta name="google" content="notranslate">
+		<link rel="icon" type="image/png" href="../image/favicon.png" />
+		<link rel="image_src" href="../image/apple-touch-icon-144x144-precomposed.png" />
+		<link rel="apple-touch-icon" href="../image/apple-touch-icon.png" />
+		<link rel="apple-touch-icon-precomposed" href="../image/apple-touch-icon-precomposed.png" />
+		<link rel="apple-touch-icon-precomposed" sizes="57x57" href="../image/apple-touch-icon-57x57-precomposed.png" />
+		<link rel="apple-touch-icon-precomposed" sizes="72x72" href="../image/apple-touch-icon-72x72-precomposed.png" />
+		<link rel="apple-touch-icon-precomposed" sizes="114x114" href="../image/apple-touch-icon-114x114-precomposed.png" />
+		<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../image/apple-touch-icon-144x144-precomposed.png" />
+		<link rel="author" href="https://plus.google.com/+BillMei" />
+		<link rel="publisher" href="https://plus.google.com/+BillMei" />
+		<link href="../assets/styles.css"  rel="stylesheet" media="all"/>
+	</head>
+<body>
+<button type="button" class="btn btn-secondary" id="returnButtonInSinglePlay">Return</button>
+<div class="container">
+	
+	<h1>BEAT THE AI</h1>
+	<p>How to play</p>
+	<ol class="instructions">
+		<li id="step1">Select your ships from the left-hand side</li>
+		<li id="step2">Place your ships on your map</li>
+		<li id="step3">Click on the cells of the enemy's map to find and destroy all five enemy ships</li>
+		<li id="step4">The computer will fire on your ships immediately after you fire on its ships.</li>
+	</ol>
+	<div class="game-container">
+		<div id="restart-sidebar" class="hidden">
+			<h2>Try Again</h2>
+			<button id="restart-game">Restart Game</button>
+		</div><div id="roster-sidebar">
+			<h2>Place Your Ships</h2>
+			<ul class="fleet-roster">
+				<li id="patrolboat">Patrol Boat</li>
+				<li id="submarine">Submarine</li>
+				<li id="destroyer">Destroyer</li>
+				<li id="battleship">Battleship</li>
+				<li id="carrier">Aircraft Carrier</li>
+			</ul>
+			<button id="rotate-button" data-direction="0">Rotate Ship</button>
+			<button id="start-game" class="hidden">Start Game</button>
+			<button id="place-randomly" class="hidden">Place Randomly and Start</button>
+		</div><div id="stats-sidebar">
+			<h2>Stats</h2>
+			<p><strong>Games Won</strong></p>
+			<p id="stats-wins">0 of 0</p>
+			<p><strong>Accuracy</strong></p>
+			<p id="stats-accuracy">0%</p>
+			<button id="reset-stats">Reset Stats</button>
+			<button id="prob-heatmap" class="hidden">Show Probability Heatmap</button>
+		</div><div class="grid-container">
+			<h2>Your Fleet</h2>
+			<div class="grid human-player"><span class="no-js">Please enable JavaScript to play this game</span></div>
+		</div><div class="grid-container">
+			<h2>Enemy Fleet</h2>
+			<div class="grid computer-player"><span class="no-js">Please enable JavaScript to play this game</span></div>
+		</div>
+	</div>
+	
+	<p>Created by <a href="https://github.com/Fuon1412">Phuong</a> and <a href="https://github.com/KhaiLe190904">Khai</a>.</p>
+	<p>This project is open source <a href="https://github.com/Fuon1412/Network-programming-battleship">on GitHub</a>.</p>
+</div>
+
+<a href="https://github.com/Fuon1412/Network-programming-battleship">
+    <img
+        style="position: absolute; top: 0; right: 0; border: 0; width: 100px; height: auto;"
+        src="../image/like.png"
+        alt="Fork me on GitHub">
+</a>
+
+<script src="../src/battleboat.js"></script>
+<span class="prefetch" id="prefetch1"></span>
+<span class="prefetch" id="prefetch2"></span>
+<span class="prefetch" id="prefetch3"></span>
+</body>
+</html>

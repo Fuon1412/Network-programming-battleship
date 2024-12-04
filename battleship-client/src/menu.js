@@ -81,6 +81,10 @@ $(function () {
     window.api.exitApp();
   });
 
+  $("#singlePlayerButton").on("click", () => {
+    window.location.href = "index.html"
+  });
+
   $("#multiplayerButton").on("click", () => {
     connectToServer()
       .then(() => {
